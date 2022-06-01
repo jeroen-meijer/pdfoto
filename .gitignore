@@ -6,3 +6,15 @@
 build/
 pubspec.lock
 example_photos/example_photos.pdf
+
+# Mac related files
+.DS_Store
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows related files
+@eaDir
+*.lnk
+desktop.ini
