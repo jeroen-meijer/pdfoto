@@ -16,7 +16,7 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  final path = args.isEmpty ? 'bin/pdfoto.dart' : args.first;
+  final path = args.isEmpty ? Directory.current.path : args.first;
   final directory = Directory(path);
   if (!directory.existsSync()) {
     print('Error: $path is not a directory or does not exist\n\n$_usageText');

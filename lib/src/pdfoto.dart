@@ -25,7 +25,9 @@ class Pdfoto {
     final files = directory.listSync().whereType<File>();
     final photoFiles = files
         .where(
-            (file) => validPhotoExtensions.contains(path.extension(file.path)))
+          (file) => validPhotoExtensions
+              .contains(path.extension(file.path).toLowerCase()),
+        )
         .toList();
 
     if (photoFiles.isEmpty) {
@@ -85,19 +87,6 @@ class Pdfoto {
                 SizedBox(height: 16),
                 Table(
                   children: [
-                    /*
-                      make: $make,
-                      model: $model,
-                      size: $size,
-                      didUseFlash: $didUseFlash,
-                      lensModel: $lensModel,
-                      iso: $iso,
-                      exposureTime: $exposureTime,
-                      exposureTimeInSeconds: ${exposureTimeInSeconds?.toStringAsFixed(3)},
-                      focalLength: $focalLength,
-                      fStop: $fStop,
-                      colorSpace: ${colorSpace?.name},
-                    */
                     _buildPhotoPropertyTableRow(
                       label: 'Name',
                       value: photo.name,
@@ -145,7 +134,11 @@ class Pdfoto {
                     ),
                     _buildPhotoPropertyTableRow(
                       label: 'Exposure time',
-                      value: photo.exposureTime?.toString(),
+                      value: photo.exposureTime == null
+                          ? null
+                          : photo.exposureTimeInSeconds! < 1
+                              ? photo.exposureTime
+                              : '${photo.exposureTimeInSeconds}s',
                     ),
                     _buildPhotoPropertyTableRow(
                       label: 'Focal length',
@@ -165,6 +158,7 @@ class Pdfoto {
     }
 
     await _exportFile.writeAsBytes(await pdfDoc.save());
+    print('PDF created at ${_exportFile.path}');
   }
 
   TableRow _buildPhotoPropertyTableRow({required String label, String? value}) {

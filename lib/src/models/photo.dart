@@ -40,14 +40,16 @@ class Photo {
   String? _getProperty(String key) =>
       _mapProperty<String?>(key, (v) => v.isEmpty ? null : v);
 
-  DateTime? get dateTime =>
-      _mapProperty<DateTime?>('EXIF DateTimeOriginal', (v) {
-        try {
-          return DateFormat('yyyy:MM:dd HH:mm:ss').parse(v);
-        } catch (_) {
-          return null;
-        }
-      });
+  DateTime? get dateTime => _mapProperty<DateTime?>(
+        'Image DateTime',
+        (v) {
+          try {
+            return DateFormat('yyyy:MM:dd HH:mm:ss').parse(v);
+          } catch (_) {
+            return null;
+          }
+        },
+      );
 
   String? get make => _getProperty('Image Make');
 
@@ -69,8 +71,15 @@ class Photo {
   String? get exposureTime => _getProperty('EXIF ExposureTime');
 
   double? get exposureTimeInSeconds {
-    final parts = exposureTime?.split('/');
-    if (parts == null || parts.length != 2) {
+    final asString = exposureTime;
+    if (asString == null) {
+      return null;
+    }
+
+    final parts = asString.split('/');
+    if (parts.length == 1) {
+      return double.tryParse(parts[0]);
+    } else if (parts.length != 2) {
       return null;
     }
 
