@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      BUILD_DIR: ./build/web/
+      BUILD_DIR: ./packages/pdfoto_flutter/build/web/
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
     steps:
@@ -33,10 +33,7 @@ jobs:
         run: flutter config --enable-web
 
       - name: Build
-        run: flutter build web --release -t lib/main_production.dart
-
-      # - name: Copy CNAME
-      #   run: cp ./CNAME ${{ env.BUILD_DIR }}
+        run: flutter build web --release --target lib/main_production.dart --web-renderer html --base-href="/pdfoto/"
 
       - name: Publish
         uses: peaceiris/actions-gh-pages@v3
