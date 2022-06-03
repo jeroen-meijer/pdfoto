@@ -33,7 +33,7 @@ jobs:
         run: flutter config --enable-web
 
       - name: Build
-        run: flutter build web --release
+        run: flutter build web --release -t lib/main_production.dart
 
       # - name: Copy CNAME
       #   run: cp ./CNAME ${{ env.BUILD_DIR }}
