@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
@@ -11,31 +12,24 @@ import 'package:pdfoto/pdfoto.dart';
 /// {@endtemplate}
 class Pdfoto {
   /// {@macro pdfoto}
-  const Pdfoto(this.directory);
+  const Pdfoto();
 
-  final Directory directory;
-
+  /// A list of valid photo extensions.
   static const validPhotoExtensions = ['.jpg', '.jpeg', '.png'];
 
-  String get _baseFileName => path.basename(directory.path);
-
-  File get _exportFile => File(path.join(directory.path, '$_baseFileName.pdf'));
-
-  Future<void> run() async {
-    final files = directory.listSync().whereType<File>();
-    final photoFiles = files
-        .where(
-          (file) => validPhotoExtensions
-              .contains(path.extension(file.path).toLowerCase()),
-        )
-        .toList();
-
-    if (photoFiles.isEmpty) {
-      print('No valid photos found in $directory.');
-      return;
+  void _assertAllFilesValid(List<File> files) {
+    for (final file in files) {
+      if (!validPhotoExtensions.contains(path.extension(file.path))) {
+        throw ArgumentError(
+          'Invalid file extension: ${path.extension(file.path)}',
+        );
+      }
     }
+  }
 
-    print('Found ${photoFiles.length} photo(s) in $directory.');
+  /// Creates a PDF based on the given [photoFiles] and returns the PDF bytes.
+  Future<Uint8List> createPdf({required List<File> photoFiles}) async {
+    _assertAllFilesValid(photoFiles);
 
     final photos = await Future.wait([
       for (final file in photoFiles) Photo.parseFile(file),
@@ -51,7 +45,6 @@ class Pdfoto {
       });
 
     final pdfDoc = Document(
-      title: _baseFileName,
       author: 'PDFoto',
     );
 
@@ -157,8 +150,7 @@ class Pdfoto {
       );
     }
 
-    await _exportFile.writeAsBytes(await pdfDoc.save());
-    print('PDF created at ${_exportFile.path}');
+    return pdfDoc.save();
   }
 
   TableRow _buildPhotoPropertyTableRow({required String label, String? value}) {

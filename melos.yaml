@@ -1,0 +1,5 @@
+name: pdfoto
+repository: https://github.com/jeroen-meijer/pdfoto
+
+packages:
+  - packages/**

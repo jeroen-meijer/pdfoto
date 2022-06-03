@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["AGFA", "EXIF", "makernote", "pdfoto"]
+  "cSpell.words": ["AGFA", "EXIF", "intellij", "makernote", "pdfoto"],
+  "dart.runPubGetOnPubspecChanges": false
 }

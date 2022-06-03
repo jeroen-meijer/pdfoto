@@ -8,6 +8,7 @@
       "name": "pdfoto (example folder)",
       "request": "launch",
       "type": "dart",
+      "cwd": "packages/pdfoto",
       "program": "bin/pdfoto.dart",
       "args": ["example_photos"]
     }

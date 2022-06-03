@@ -5,6 +5,7 @@
 .packages
 build/
 pubspec.lock
+example_photos/example_photos.pdf
 
 # Mac related files
 .DS_Store
