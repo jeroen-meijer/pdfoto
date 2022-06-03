@@ -1,7 +1,6 @@
 name: pdfoto
 description: A tool for creating a PDF that showcases a set of photos.
 version: 1.0.0+1
-publish_to: none
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
@@ -10,10 +9,11 @@ executables:
   pdfoto: pdfoto
 
 dependencies:
+  equatable: ^2.0.3
   exif: ^3.1.1
   intl: ^0.17.0
-  meta: ^1.8.0
-  path: ^1.8.2
+  meta: ^1.7.0
+  path: ^1.8.1
   pdf: ^3.8.1
 
 dev_dependencies:

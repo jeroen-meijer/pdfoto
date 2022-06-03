@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:equatable/equatable.dart';
 import 'package:exif/exif.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
@@ -12,7 +13,7 @@ import 'package:path/path.dart' as path;
 /// EXIF data.
 /// {@endtemplate}
 @immutable
-class Photo {
+class Photo extends Equatable {
   /// {@macro photo}
   const Photo({
     required this.file,
@@ -173,7 +174,8 @@ class Photo {
       );
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 Photo(
   name: $name,
   fileExtension: $fileExtension,
@@ -191,6 +193,12 @@ Photo(
   fStop: $fStop,
   colorSpace: ${colorSpace?.name},
 )''';
+
+  @override
+  List<Object?> get props => [
+        file,
+        {for (final key in _metadata.keys) _getProperty(key)}
+      ];
 }
 
 /// {@template photo_size}

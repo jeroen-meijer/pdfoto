@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:pdfoto/pdfoto.dart';
 
-const _usageText = '''
+const _usageText =
+    '''
 Usage:
   pdfoto <directory>
 
