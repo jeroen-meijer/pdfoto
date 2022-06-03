@@ -85,17 +85,17 @@ android {
         production {
             dimension "default"
             applicationIdSuffix ""
-            manifestPlaceholders = [appName: "Pdfoto Flutter"]
+            manifestPlaceholders = [appName: "PDFoto"]
         }
         staging {
             dimension "default"
             applicationIdSuffix ".stg"
-            manifestPlaceholders = [appName: "[STG] Pdfoto Flutter"]
+            manifestPlaceholders = [appName: "[STG] PDFoto"]
         }
         development {
             dimension "default"
             applicationIdSuffix ".dev"
-            manifestPlaceholders = [appName: "[DEV] Pdfoto Flutter"]
+            manifestPlaceholders = [appName: "[DEV] PDFoto"]
         }
     }
 

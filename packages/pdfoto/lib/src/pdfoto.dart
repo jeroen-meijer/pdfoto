@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cross_file/cross_file.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 import 'package:pdf/pdf.dart';
@@ -17,9 +18,10 @@ class Pdfoto {
   /// A list of valid photo extensions.
   static const validPhotoExtensions = ['.jpg', '.jpeg', '.png'];
 
-  void _assertAllFilesValid(List<File> files) {
+  void _assertAllFilesValid(List<XFile> files) {
     for (final file in files) {
-      if (!validPhotoExtensions.contains(path.extension(file.path))) {
+      if (!file.path.startsWith('blob:') &&
+          !validPhotoExtensions.contains(path.extension(file.path))) {
         throw ArgumentError(
           'Invalid file extension: ${path.extension(file.path)}',
         );
@@ -27,12 +29,14 @@ class Pdfoto {
     }
   }
 
-  /// Creates a PDF based on the given [photoFiles] and returns the PDF bytes.
-  Future<Uint8List> createPdf({required List<File> photoFiles}) async {
-    _assertAllFilesValid(photoFiles);
-
+  /// Creates a PDF based on the given [files] and returns the PDF bytes.
+  Future<Uint8List> createPdfFromFiles({
+    required List<XFile> files,
+    PdfPageFormat pageFormat = PdfPageFormat.standard,
+  }) async {
+    _assertAllFilesValid(files);
     final photos = await Future.wait([
-      for (final file in photoFiles) Photo.parseFile(file),
+      for (final file in files) Photo.parseFile(file),
     ])
       ..sort((a, b) {
         if (a.dateTime == null) {

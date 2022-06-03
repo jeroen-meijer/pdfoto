@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:path/path.dart' as path;
 import 'package:pdfoto/pdfoto.dart';
+import 'package:pdfoto/src/extensions/extensions.dart';
 
 const _usageText =
     '''
@@ -29,16 +30,17 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  final photoFiles = directory
+  final files = directory
       .listSync()
       .whereType<File>()
       .where(
         (file) =>
             Pdfoto.validPhotoExtensions.contains(path.extension(file.path)),
       )
+      .map((file) => file.toXFile())
       .toList();
 
-  if (photoFiles.isEmpty) {
+  if (files.isEmpty) {
     print(
       'Error: No photos found in $basePath.\n\n'
       'Accepted file extensions: '
@@ -48,13 +50,13 @@ Future<void> main(List<String> args) async {
   }
 
   print(
-    'Found ${photoFiles.length} photos in $basePath.\n'
+    'Found ${files.length} photos in $basePath.\n'
     'Generating PDF to ${outputFile.path}',
   );
 
   const pdfoto = Pdfoto();
 
-  final pdfData = await pdfoto.createPdf(photoFiles: photoFiles);
+  final pdfData = await pdfoto.createPdfFromFiles(files: files);
   await outputFile.writeAsBytes(pdfData);
 
   print('Done.');

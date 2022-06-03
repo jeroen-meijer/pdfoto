@@ -4,6 +4,9 @@ on: [pull_request, push]
 
 jobs:
   build:
+    defaults:
+      run:
+        working_directory: packages/pdfoto_flutter
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/flutter_package.yml@v1
     with:
       flutter_channel: stable

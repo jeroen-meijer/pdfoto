@@ -9,14 +9,19 @@ environment:
 dependencies:
   bloc: ^8.0.3
   equatable: ^2.0.3
+  file_selector: ^0.8.4+2
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
   flutter_localizations:
     sdk: flutter
   intl: ^0.17.0
+  open_file: ^2.1.1
+  path_provider: ^2.0.10
   pdfoto:
     path: ../pdfoto
+  printing: ^5.9.1
+  url_launcher: ^6.1.2
 
 dev_dependencies:
   bloc_test: ^9.0.3

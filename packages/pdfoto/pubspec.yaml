@@ -9,6 +9,7 @@ executables:
   pdfoto: pdfoto
 
 dependencies:
+  cross_file: ^0.3.3+1
   equatable: ^2.0.3
   exif: ^3.1.1
   intl: ^0.17.0

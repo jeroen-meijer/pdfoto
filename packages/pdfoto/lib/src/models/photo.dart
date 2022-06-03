@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cross_file/cross_file.dart';
 import 'package:equatable/equatable.dart';
 import 'package:exif/exif.dart';
 import 'package:intl/intl.dart';
@@ -21,7 +22,7 @@ class Photo extends Equatable {
   }) : _metadata = metadata;
 
   /// Parses the given [file] into a [Photo].
-  static Future<Photo> parseFile(File file) async {
+  static Future<Photo> parseFile(XFile file) async {
     return Photo(
       file: file,
       metadata: await readExifFromBytes(await file.readAsBytes()),
@@ -29,10 +30,10 @@ class Photo extends Equatable {
   }
 
   /// The file that this photo references.
-  final File file;
+  final XFile file;
   final Map<String, IfdTag> _metadata;
 
-  String get _baseFileName => path.basename(file.path);
+  String get _baseFileName => file.name;
   String get _fullFileExtension => path.extension(_baseFileName);
 
   /// The upper-cased file extension of the photo, without a leading dot
